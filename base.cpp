@@ -1,5 +1,7 @@
 #include <Arduino.h>
 #include "RF24.h"
+#include "esp_bt.h"
+#include "esp_wifi.h"
 
 //Some variables
 constexpr int SPI_SPEED = 16000000;
@@ -27,6 +29,13 @@ void jamBle();
 void jamAll();
 
 void setup() {
+  
+    esp_bt_controller_deinit();
+    esp_wifi_stop();
+    esp_wifi_deinit();
+    esp_wifi_disconnect();
+
+  
   spiVSPI = new SPIClass(VSPI);
   spiVSPI->begin();
   configureRadio(radio_vspi, ble_channels[0], spiVSPI);
